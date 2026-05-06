@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Me Me Maw | Local Preview</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            primary: '#0F172A',
+                            accent: '#10B981',
+                            surface: '#F8FAFC',
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Plus Jakarta Sans', 'sans-serif'],
+                        display: ['Space Grotesk', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        @media print {
+            .print\:hidden { display: none !important; }
+            .print\:block { display: block !important; }
+        }
+        .scroll-smooth { scroll-behavior: smooth; }
+    </style>
+</head>
+<body class="bg-brand-surface">
+    <div id="root"></div>
+
+    <!-- React & Babel CDNs -->
+    <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <!-- Lucide Icons CDN -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <!-- Framer Motion CDN -->
+    <script src="https://unpkg.com/framer-motion@10.16.4/dist/framer-motion.js"></script>
+
+    <script type="text/babel">
+        const { useState, useEffect } = React;
+
+        // Helper to render Lucide icons from the global Lucide object
+        const Icon = ({ name, className = "" }) => {
+            const [iconHtml, setIconHtml] = useState("");
+            
+            useEffect(() => {
+                if (window.lucide) {
+                    const icon = window.lucide.icons[name];
+                    if (icon) {
+                        const svg = icon.toSvg({ class: className });
+                        setIconHtml(svg);
+                    }
+                }
+            }, [name, className]);
+
+            return <span dangerouslySetInnerHTML={{ __html: iconHtml }} className="inline-flex items-center justify-center" />;
+        };
+
+        const SectionHeader = ({ title, iconName }) => (
+            <div className="flex items-center gap-4 mb-10">
+                <div className="p-3 bg-brand-accent/10 rounded-xl">
+                    <Icon name={iconName} className="w-6 h-6 text-brand-accent" />
+                </div>
+                <h2 className="text-3xl font-display font-bold text-brand-primary tracking-tight">{title}</h2>
+            </div>
+        );
+
+        const Card = ({ children, className = "" }) => (
+            <div className={`bg-white rounded-3xl p-8 border border-slate-100 shadow-sm hover:shadow-md transition-all duration-300 ${className}`}>
+                {children}
+            </div>
+        );
+
+        const Badge = ({ children, variant = "default" }) => (
+            <span className={`px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider ${
+                variant === "accent" ? "bg-brand-accent/10 text-brand-accent" : 
+                variant === "outline" ? "border border-brand-accent/30 text-brand-accent" :
+                "bg-slate-100 text-slate-600"
+            }`}>
+                {children}
+            </span>
+        );
+
+        function App() {
+            const handleDownloadCV = () => {
+                window.print();
+            };
+
+            return (
+                <div className="min-h-screen bg-brand-surface font-sans selection:bg-brand-accent/20 selection:text-brand-accent scroll-smooth">
+                    {/* Print-only Header */}
+                    <div className="hidden print:block p-8 border-b-2 border-slate-200 mb-8">
+                        <h1 className="text-4xl font-display font-bold text-brand-primary">Me Me Maw</h1>
+                        <p className="text-brand-accent font-bold mb-4">PhD in Environmental and Water Resources Engineering</p>
+                        <div className="grid grid-cols-2 gap-4 text-sm text-slate-600">
+                            <p>Email: mememaw29@gmail.com</p>
+                            <p>Phone: +66 09 497 49894</p>
+                            <p>LinkedIn: linkedin.com/in/me-me-maw-9436b8123/</p>
+                        </div>
+                    </div>
+
+                    {/* Modern Hero Section */}
+                    <header className="relative pt-20 pb-32 overflow-hidden print:hidden">
+                        <div className="absolute top-0 right-0 w-1/2 h-full bg-brand-accent/5 -skew-x-12 translate-x-1/4 z-0" />
+                        
+                        <div className="container mx-auto px-6 relative z-10">
+                            <div className="flex flex-col lg:flex-row items-center gap-16">
+                                <div className="flex-1 text-center lg:text-left transition-all duration-1000">
+                                    <div className="flex flex-wrap justify-center lg:justify-start gap-3 mb-6">
+                                        <Badge variant="accent">Environmental Engineer</Badge>
+                                        <Badge variant="outline">PhD Researcher</Badge>
+                                    </div>
+                                    <h1 className="text-6xl lg:text-8xl font-display font-black text-brand-primary mb-8 leading-[0.9]">
+                                        Me Me <br />
+                                        <span className="text-brand-accent">Maw</span>
+                                    </h1>
+                                    <p className="text-xl text-slate-600 max-w-xl mb-10 leading-relaxed">
+                                        Doctor of Philosophy (PhD) specializing in Environmental and Water Resources Engineering. 
+                                        Pioneering research in <span className="text-brand-accent font-bold">microplastics removal</span> from wastewater systems.
+                                    </p>
+                                    
+                                    <div className="flex flex-wrap justify-center lg:justify-start gap-4">
+                                        <button 
+                                            onClick={handleDownloadCV}
+                                            className="group flex items-center gap-3 bg-brand-primary text-white px-8 py-4 rounded-2xl hover:bg-brand-accent transition-all shadow-lg hover:shadow-brand-accent/20"
+                                        >
+                                            <Icon name="Download" className="w-5 h-5" />
+                                            <span className="font-semibold">Download CV</span>
+                                        </button>
+                                        <a 
+                                            href="https://www.linkedin.com/in/me-me-maw-9436b8123/" 
+                                            target="_blank" 
+                                            rel="noopener noreferrer"
+                                            className="flex items-center gap-3 bg-white border border-slate-200 px-8 py-4 rounded-2xl hover:border-brand-accent transition-all group"
+                                        >
+                                            <Icon name="Linkedin" className="w-5 h-5 text-brand-accent group-hover:scale-110 transition-transform" />
+                                            <span className="font-semibold">LinkedIn</span>
+                                        </a>
+                                    </div>
+                                </div>
+
+                                <div className="relative transition-all duration-1000 delay-200">
+                                    <div className="relative w-72 h-[400px] lg:w-[420px] lg:h-[560px]">
+                                        <div className="absolute -inset-4 bg-brand-accent/10 rounded-[4rem] -rotate-3 blur-2xl" />
+                                        <div className="absolute inset-0 bg-brand-accent/5 rounded-[4rem] rotate-3" />
+                                        
+                                        <div className="relative w-full h-full overflow-hidden rounded-[4rem] shadow-[0_32px_64px_-16px_rgba(0,0,0,0.2)] border-8 border-white">
+                                            <img 
+                                                src="https://picsum.photos/seed/mememaw_professional/800/1000" 
+                                                alt="Me Me Maw" 
+                                                className="w-full h-full object-cover hover:scale-105 transition-transform duration-700"
+                                            />
+                                        </div>
+
+                                        <div className="absolute -bottom-8 -right-8 bg-white p-6 rounded-3xl shadow-2xl border border-slate-100 hidden md:block">
+                                            <div className="flex items-center gap-4">
+                                                <div className="p-3 bg-emerald-50 rounded-2xl">
+                                                    <Icon name="Sparkles" className="w-6 h-6 text-emerald-600" />
+                                                </div>
+                                                <div>
+                                                    <p className="text-[10px] text-slate-400 font-bold uppercase tracking-[0.2em] mb-1">Research Impact</p>
+                                                    <p className="text-xl font-display font-bold text-brand-primary">Q1 Publications</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </header>
+
+                    <main className="container mx-auto px-6 pb-32">
+                        {/* Bento Grid */}
+                        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-24">
+                            <Card className="lg:col-span-2">
+                                <SectionHeader title="Academic Journey" iconName="GraduationCap" />
+                                <div className="space-y-10">
+                                    {[
+                                        { degree: "Doctor of Philosophy (PhD.)", field: "Environmental and Water Resources Engineering", school: "Mahidol University, Thailand", year: "2023", accent: true },
+                                        { degree: "Master of Science", field: "Industrial Chemistry", school: "Yandanabon University, Myanmar", year: "2014" },
+                                        { degree: "Bachelor of Science (Hons.)", field: "Industrial Chemistry", school: "Yandanabon University, Myanmar", year: "2012" }
+                                    ].map((edu, idx) => (
+                                        <div key={idx} className="flex gap-6 group">
+                                            <div className={`w-12 h-12 rounded-2xl flex items-center justify-center shrink-0 transition-colors ${edu.accent ? 'bg-brand-accent text-white' : 'bg-slate-100 text-slate-400'}`}>
+                                                <Icon name="GraduationCap" className="w-6 h-6" />
+                                            </div>
+                                            <div>
+                                                <div className="flex items-center gap-3 mb-1">
+                                                    <h3 className="text-xl font-display font-bold text-brand-primary">{edu.degree}</h3>
+                                                    <Badge>{edu.year}</Badge>
+                                                </div>
+                                                <p className="text-brand-accent font-medium mb-1">{edu.field}</p>
+                                                <p className="text-slate-500 text-sm">{edu.school}</p>
+                                            </div>
+                                        </div>
+                                    ))}
+                                </div>
+                            </Card>
+
+                            <div className="space-y-8">
+                                <Card className="bg-brand-primary text-white border-none">
+                                    <SectionHeader title="Research Impact" iconName="Sparkles" />
+                                    <div className="space-y-6">
+                                        <div className="flex items-center gap-4">
+                                            <div className="w-12 h-12 bg-brand-accent/20 rounded-xl flex items-center justify-center text-brand-accent font-black text-xl">Q1</div>
+                                            <p className="text-sm text-slate-300">Top-tier international journal publications in <span className="text-white font-bold">Chemosphere</span> and <span className="text-white font-bold">STOTEN</span>.</p>
+                                        </div>
+                                        <div className="p-4 bg-white/5 rounded-2xl border border-white/10">
+                                            <p className="text-xs font-bold text-brand-accent uppercase mb-2 tracking-widest">Key Contribution</p>
+                                            <p className="text-sm text-slate-300 leading-relaxed">
+                                                Developed rapid and efficient methods for extracting microplastics from sewage sludge, significantly improving environmental monitoring accuracy.
+                                            </p>
+                                        </div>
+                                    </div>
+                                </Card>
+
+                                <Card>
+                                    <SectionHeader title="Expertise" iconName="Award" />
+                                    <div className="space-y-6">
+                                        <div>
+                                            <h3 className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] mb-3">Technical Stack</h3>
+                                            <div className="flex flex-wrap gap-2">
+                                                {["FTIR", "Raman", "Motic Image", "GIS", "R", "SPSS"].map(s => (
+                                                    <span key={s} className="px-2 py-1 bg-slate-50 text-slate-700 text-[10px] font-bold rounded-lg border border-slate-100">{s}</span>
+                                                ))}
+                                            </div>
+                                        </div>
+                                        <div>
+                                            <h3 className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] mb-3">Languages</h3>
+                                            <div className="space-y-2">
+                                                <div className="flex justify-between items-center text-sm">
+                                                    <span className="font-semibold">Burmese</span>
+                                                    <span className="text-brand-accent font-bold">Native</span>
+                                                </div>
+                                                <div className="flex justify-between items-center text-sm">
+                                                    <span className="font-semibold">English</span>
+                                                    <span className="text-slate-400">Working</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </Card>
+                            </div>
+                        </div>
+
+                        {/* Professional Experience */}
+                        <div className="mb-24">
+                            <SectionHeader title="Professional Trajectory" iconName="Briefcase" />
+                            <div className="space-y-8">
+                                {[
+                                    {
+                                        role: "Environmental Consultant",
+                                        company: "E Guard Environmental Services Co., Ltd.",
+                                        location: "Yangon, Myanmar",
+                                        period: "2015 – 2024",
+                                        type: "Full-time & Project-based",
+                                        tasks: [
+                                            "Lead and arrange for assigned EIA, EMP, IEE projects.",
+                                            "Perform site investigations for environmental baseline data collection (air, water, biodiversity, soil).",
+                                            "Coordinating with project proponents and diverse stakeholders.",
+                                            "Authoring comprehensive EIA reports and mitigation strategies.",
+                                            "Organizing public consulting meetings and technical presentations."
+                                        ]
+                                    },
+                                    {
+                                        role: "Teaching Assistant",
+                                        company: "Faculty of Engineering, Mahidol University",
+                                        location: "Thailand",
+                                        period: "Two Semesters",
+                                        tasks: [
+                                            "Setting up laboratory experiments for water/wastewater sampling and analysis.",
+                                            "Chemical preparation, equipment calibration, and material management.",
+                                            "Guiding students through complex experimental procedures safely."
+                                        ]
+                                    }
+                                ].map((job, idx) => (
+                                    <Card key={idx} className="group overflow-hidden">
+                                        <div className="flex flex-col md:flex-row md:items-start gap-8">
+                                            <div className="md:w-1/3">
+                                                <Badge variant="accent">{job.period}</Badge>
+                                                <h3 className="text-2xl font-display font-bold text-brand-primary mt-4 mb-2">{job.role}</h3>
+                                                <p className="text-brand-accent font-semibold flex items-center gap-2">
+                                                    <Icon name="Briefcase" className="w-4 h-4" /> {job.company}
+                                                </p>
+                                                <p className="text-slate-400 text-sm mt-1 flex items-center gap-2">
+                                                    <Icon name="MapPin" className="w-3 h-3" /> {job.location}
+                                                </p>
+                                            </div>
+                                            <div className="md:w-2/3 border-l border-slate-100 md:pl-8">
+                                                <ul className="space-y-4">
+                                                    {job.tasks.map((task, tIdx) => (
+                                                        <li key={tIdx} className="flex gap-4 text-slate-600 leading-relaxed">
+                                                            <Icon name="CheckCircle2" className="w-5 h-5 text-brand-accent shrink-0 mt-0.5" />
+                                                            <span>{task}</span>
+                                                        </li>
+                                                    ))}
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </Card>
+                                ))}
+                            </div>
+                        </div>
+
+                        {/* Publications */}
+                        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 mb-24">
+                            <div>
+                                <SectionHeader title="Journal Publications" iconName="BookOpen" />
+                                <div className="space-y-6">
+                                    {[
+                                        { title: "Microplastics in Wastewater and Sludge", journal: "Chemosphere", year: "2024", doi: "#", rank: "Q1" },
+                                        { title: "Rapid removal of organic matter", journal: "STOTEN", year: "2022", doi: "#", rank: "Q1" }
+                                    ].map((pub, idx) => (
+                                        <div key={idx} className="p-6 bg-white rounded-2xl border border-slate-100 hover:border-brand-accent transition-all group">
+                                            <div className="flex justify-between items-start mb-4">
+                                                <Badge variant="accent">{pub.rank}</Badge>
+                                                <span className="text-sm font-bold text-slate-400">{pub.year}</span>
+                                            </div>
+                                            <h4 className="text-lg font-display font-bold text-brand-primary mb-3 group-hover:text-brand-accent transition-colors leading-snug">{pub.title}</h4>
+                                            <p className="text-sm text-slate-500 italic mb-4">{pub.journal}</p>
+                                        </div>
+                                    ))}
+                                </div>
+                            </div>
+                            <div>
+                                <SectionHeader title="Conferences" iconName="Microscope" />
+                                <div className="space-y-6">
+                                    {[
+                                        { title: "Microplastics occurrence in WWTPs", event: "Kyoto University Workshop", date: "2023", type: "Presentation" },
+                                        { title: "Quantification of microplastics", event: "Kyoto University Symposium", date: "2021", type: "Poster" }
+                                    ].map((conf, idx) => (
+                                        <div key={idx} className="p-6 bg-slate-900 rounded-2xl text-white group hover:bg-brand-accent transition-all">
+                                            <div className="flex justify-between items-center mb-4">
+                                                <span className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 group-hover:text-white/80">{conf.type}</span>
+                                                <Icon name="Calendar" className="w-4 h-4 text-brand-accent group-hover:text-white" />
+                                            </div>
+                                            <h4 className="text-lg font-display font-bold mb-2 leading-tight">{conf.title}</h4>
+                                            <p className="text-sm text-slate-400 group-hover:text-white/80">{conf.event}</p>
+                                        </div>
+                                    ))}
+                                </div>
+                            </div>
+                        </div>
+                    </main>
+
+                    {/* Footer */}
+                    <footer className="bg-slate-900 text-white py-20 print:hidden">
+                        <div className="container mx-auto px-6 text-center">
+                            <h2 className="text-4xl font-display font-bold mb-8">Let's Connect</h2>
+                            <div className="flex flex-wrap justify-center gap-8 mb-12">
+                                <a href="mailto:mememaw29@gmail.com" className="flex items-center gap-3 text-slate-400 hover:text-white transition-colors">
+                                    <Icon name="Mail" className="w-5 h-5" /> mememaw29@gmail.com
+                                </a>
+                                <a href="https://www.linkedin.com/in/me-me-maw-9436b8123/" target="_blank" className="flex items-center gap-3 text-slate-400 hover:text-white transition-colors">
+                                    <Icon name="Linkedin" className="w-5 h-5" /> LinkedIn
+                                </a>
+                            </div>
+                            <p className="text-slate-600 text-xs font-mono">© 2026 • Designed with Precision</p>
+                        </div>
+                    </footer>
+                </div>
+            );
+        }
+
+        const root = ReactDOM.createRoot(document.getElementById('root'));
+        root.render(<App />);
+    </script>
+</body>
+</html>
