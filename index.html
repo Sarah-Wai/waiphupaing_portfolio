@@ -377,23 +377,43 @@
                             </p>
                         </div>
                         <div class="bg-brand-primary rounded-3xl p-6 text-white shadow-xl">
-                            <p class="text-[10px] font-black uppercase tracking-[0.25em] text-brand-accent mb-4">Project
-                                Links</p>
+                            <p class="text-[10px] font-black uppercase tracking-[0.25em] text-brand-accent mb-4">
+                                Project Links
+                            </p>
+
                             <div class="space-y-3 print:hidden">
+
+                                <!-- GitHub -->
                                 <a href="https://github.com/Sarah-Wai/Receipt-Scan-AI" target="_blank"
                                     rel="noopener noreferrer"
                                     class="flex items-center justify-between bg-white/10 hover:bg-brand-accent rounded-2xl p-4 transition-all group">
-                                    <span class="font-bold"><i class="fab fa-github mr-2"></i>GitHub Code</span>
-                                    <i class="fas fa-arrow-right group-hover:translate-x-1 transition-transform"></i>
-                                </a>
-                                <a href="YOUR_RECEIPT_SCAN_AI_DEMO_VIDEO_LINK_HERE" target="_blank"
-                                    rel="noopener noreferrer"
-                                    class="flex items-center justify-between bg-white/10 hover:bg-brand-accent rounded-2xl p-4 transition-all group">
-                                    <span class="font-bold"><i class="fas fa-play-circle mr-2"></i>Demo Video</span>
-                                    <i class="fas fa-arrow-right group-hover:translate-x-1 transition-transform"></i>
-                                </a>
-                            </div>
 
+                                    <span class="font-bold">
+                                        <i class="fab fa-github mr-2"></i>
+                                        GitHub Code
+                                    </span>
+
+                                    <i class="fas fa-arrow-right group-hover:translate-x-1 transition-transform"></i>
+                                </a>
+
+                                <!-- Demo Video Player -->
+                                <div class="bg-white/10 rounded-2xl p-4 border border-white/10">
+
+                                    <div class="flex items-center gap-2 mb-3">
+                                        <i class="fas fa-play-circle text-brand-accent"></i>
+                                        <span class="font-bold">Demo Video</span>
+                                    </div>
+
+                                    <video class="w-full rounded-xl shadow-lg" controls preload="metadata">
+
+                                        <source src="./videos/receipt-demo.mp4" type="video/mp4">
+
+                                        Your browser does not support the video tag.
+                                    </video>
+
+                                </div>
+
+                            </div>
                         </div>
                     </div>
                 </article>
@@ -566,7 +586,8 @@
                     </div>
                     <a href="https://github.com/Sarah-Wai/CS712-Crop-Yield-Prediction.git" target="_blank"
                         rel="noopener noreferrer"
-                        class="inline-flex items-center gap-2 text-sm font-bold text-brand-accent hover:gap-3 transition-all print:hidden"> View
+                        class="inline-flex items-center gap-2 text-sm font-bold text-brand-accent hover:gap-3 transition-all print:hidden">
+                        View
                         on GitHub
                         <i class="fas fa-external-link-alt text-xs"></i></a>
                 </article>
